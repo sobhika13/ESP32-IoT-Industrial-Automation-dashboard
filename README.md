@@ -147,7 +147,7 @@ Security recommendation: Configure appropriate Firebase Realtime Database rules.
 ## 🌐 Project Links
 
 - **Live Dashboard:** Add your published GitHub Pages URL here after deployment.
-- **AI Studio App:** https://ai.studio/apps/27376c16-3f1c-4613-af6a-6871a5c36d79
+- **AI Studio App:** (https://ais-pre-3obj5sthkek7y4a22vrch4-686394919506.asia-southeast1.run.app/)
 - **GitHub Repository:** Add your repository URL here.
 - **Wokwi Simulation:** Add your simulation URL here if you have saved and shared the circuit.
 
