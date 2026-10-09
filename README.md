@@ -1,5 +1,5 @@
 # ESP32-IoT-Industrial-Automation-dashboard
-Short Description:  An IoT-based Industrial Automation System that uses ESP32, temperature and gas sensors to monitor industrial conditions in real time. It sends sensor data to Firebase Realtime Database and displays live readings, system status, and alerts on a web dashboard to support safer and more efficient industrial monitoring.
+An IoT-based Industrial Automation System that uses ESP32, temperature and gas sensors to monitor industrial conditions in real time. It sends sensor data to Firebase Realtime Database and displays live readings, system status, and alerts on a web dashboard to support safer and more efficient industrial monitoring.
 # IoT-Based Industrial Automation System Using Temperature and Gas Monitoring
 
 An IoT-based industrial monitoring and automation system that uses an ESP32, temperature sensor, and gas sensor to monitor environmental conditions in real time. Sensor readings are uploaded to Firebase Realtime Database and displayed on a web dashboard to support industrial safety and monitoring.
