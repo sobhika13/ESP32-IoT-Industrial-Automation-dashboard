@@ -4,13 +4,13 @@ Short Description:  An IoT-based Industrial Automation System that uses ESP32, t
 
 An IoT-based industrial monitoring and automation system that uses an ESP32, temperature sensor, and gas sensor to monitor environmental conditions in real time. Sensor readings are uploaded to Firebase Realtime Database and displayed on a web dashboard to support industrial safety and monitoring.
 
-## 📌 Project Overview
+##  Project Overview
 
 Industrial environments may experience high temperatures and gas leakage, which can create unsafe working conditions. Manual monitoring may not always identify these conditions quickly.
 
 This project uses IoT technology to monitor temperature and gas levels continuously. When sensor readings cross predefined thresholds, the system provides alerts and demonstrates machine-status control. The dashboard displays sensor readings and system status, while Firebase stores current and historical data.
 
-## 🎯 Objectives
+##  Objectives
 
 - Monitor industrial temperature and gas levels in real time.
 - Use ESP32 to collect and process sensor readings.
@@ -19,7 +19,7 @@ This project uses IoT technology to monitor temperature and gas levels continuou
 - Demonstrate automated responses to abnormal conditions.
 - Maintain historical readings for monitoring and analysis.
 
-## 🛠️ Technologies Used
+##  Technologies Used
 
 | Technology | Purpose |
 |---|---|
@@ -33,7 +33,7 @@ This project uses IoT technology to monitor temperature and gas levels continuou
 | GitHub | Stores project files and documentation |
 | GitHub Pages | Hosts the dashboard website |
 
-## ⚙️ Key Features
+##  Key Features
 
 ### 1. Real-Time Temperature Monitoring
 The DHT22 sensor measures the surrounding temperature. The ESP32 reads the sensor data and sends it to Firebase for display on the dashboard.
@@ -50,7 +50,7 @@ The dashboard is designed to display temperature, gas readings, system status, a
 ### 5. Alert and Automation Logic
 When the readings cross configured thresholds, the ESP32 can activate indicators and a buzzer. A machine-status LED demonstrates the automation response in the simulation.
 
-## 🔄 System Architecture
+##  System Architecture
 
 ```text
 DHT22 Temperature Sensor ──┐
@@ -70,7 +70,7 @@ MQ-2 Gas Sensor ───────────┤
                                   Web Dashboard
 ```
 
-## 🔌 Hardware Components
+##  Hardware Components
 
 - ESP32 development board
 - DHT22 temperature and humidity sensor
@@ -84,7 +84,7 @@ MQ-2 Gas Sensor ───────────┤
 
 **Note:** The project can be tested in Wokwi before building the physical circuit.
 
-## 💻 Software Requirements
+##  Software Requirements
 
 - A web browser
 - A Wokwi account for simulation
@@ -92,7 +92,7 @@ MQ-2 Gas Sensor ───────────┤
 - A Firebase project with Realtime Database enabled
 - A GitHub account for source code and website hosting
 
-## 🧠 Working Principle
+##  Working Principle
 
 1. The ESP32 connects to the Wi-Fi network.
 2. The DHT22 measures the ambient temperature.
@@ -103,7 +103,7 @@ MQ-2 Gas Sensor ───────────┤
 7. Historical readings are added under `/history`.
 8. The web dashboard retrieves available Firebase data and displays it to the user.
 
-## 🚨 Example Alert Thresholds
+##  Example Alert Thresholds
 
 The following values are example settings used in the current prototype firmware. They should be calibrated and validated before practical use.
 
@@ -116,7 +116,7 @@ The following values are example settings used in the current prototype firmware
 
 **Important:** MQ-2 readings are not automatically equivalent to gas concentration in ppm. Reliable concentration measurements require suitable calibration. The thresholds above are prototype values, not certified industrial safety limits.
 
-## ☁️ Firebase Database Structure
+##  Firebase Database Structure
 
 The database is designed to use the following paths:
 
@@ -144,14 +144,14 @@ https://iot-industial-automation-default-rtdb.asia-southeast1.firebasedatabase.a
 
 Security recommendation: Configure appropriate Firebase Realtime Database rules. Do not leave public write access enabled in a deployed project.
 
-## 🌐 Project Links
+##  Project Links
 
 - **Live Dashboard:** Add your published GitHub Pages URL here after deployment.
 - **AI Studio App:** (https://ais-pre-3obj5sthkek7y4a22vrch4-686394919506.asia-southeast1.run.app/)
 - **GitHub Repository:** Add your repository URL here.
 - **Wokwi Simulation:** Add your simulation URL here if you have saved and shared the circuit.
 
-## 🚀 How to Run the Project
+##  How to Run the Project
 
 ### Step 1: Open the Simulation
 Open your Wokwi ESP32 project and check that the ESP32, DHT22, MQ-2 sensor, LEDs, and buzzer are connected correctly.
@@ -175,7 +175,7 @@ Open the Firebase Realtime Database console and check whether the `/current` val
 ### Step 5: Open the Dashboard
 Open your deployed dashboard website. Confirm that it can access the required Firebase data and displays the readings correctly.
 
-## 📊 Expected Results
+##  Expected Results
 
 - Temperature and humidity readings are obtained from the DHT22.
 - Gas-related readings are obtained from the MQ-2 sensor.
@@ -186,7 +186,7 @@ Open your deployed dashboard website. Confirm that it can access the required Fi
 
 Actual results depend on sensor behaviour, Wi-Fi connectivity, Firebase permissions, and dashboard configuration.
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 - Add SMS, email, or mobile notifications for critical alerts.
 - Introduce sensor calibration and more reliable gas-concentration measurement.
@@ -196,11 +196,11 @@ Actual results depend on sensor behaviour, Wi-Fi connectivity, Firebase permissi
 - Integrate a properly rated industrial relay and fail-safe shutdown mechanism where appropriate.
 - Improve connectivity recovery and error logging.
 
-## ⚠️ Safety Disclaimer
+##  Safety Disclaimer
 
 This project is an educational prototype for IoT monitoring and automation. A simulated machine-status LED does not physically shut down industrial equipment. Do not use this prototype as the sole safety system for real machinery or gas-leak protection. Practical deployment requires calibrated sensors, appropriate certified safety equipment, secure database configuration, and professional validation.
 
-## 👨‍🎓 Project Summary
+##  Project Summary
 
 The IoT-Based Industrial Automation System demonstrates how ESP32, environmental sensors, Wi-Fi, Firebase Realtime Database, and a web dashboard can be combined to monitor industrial conditions remotely. The prototype provides sensor monitoring, threshold-based alerts, data storage, and a foundation for future industrial automation improvements.
 
