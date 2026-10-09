@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Industrial Automation Dashboard</title>
+<style>
+:root {
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --surface2: #eef3f8;
+  --text: #162033;
+  --muted: #667085;
+  --border: #dbe3ec;
+  --accent: #2457d6;
+  --good: #17804d;
+  --warn: #b26a00;
+  --critical: #c62828;
+  --shadow: 0 8px 28px rgba(20, 38, 65, .08);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1420;
+    --surface: #151d2b;
+    --surface2: #1d2737;
+    --text: #edf2f7;
+    --muted: #aab5c5;
+    --border: #2d394b;
+    --accent: #79a0ff;
+    --good: #55c993;
+    --warn: #e4a64f;
+    --critical: #ff7676;
+    --shadow: 0 8px 28px rgba(0,0,0,.25);
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--text); }
+.app { min-height: 100vh; background: var(--bg); }
+.header {
+  padding: 22px 28px; border-bottom: 1px solid var(--border);
+  background: var(--surface); display: flex; justify-content: space-between;
+  align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.brand h1 { margin: 0 0 5px; font-size: 22px; }
+.brand p { margin: 0; color: var(--muted); font-size: 13px; }
+.actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+button {
+  border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  border-radius: 9px; padding: 9px 13px; cursor: pointer; font-weight: 600;
+}
+button.primary { background: var(--accent); color: white; border-color: var(--accent); }
+.status-pill {
+  display: inline-flex; align-items: center; gap: 7px; padding: 8px 11px;
+  border-radius: 999px; background: var(--surface2); font-size: 12px; font-weight: 700;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+main { padding: 26px 28px 36px; max-width: 1400px; margin: auto; }
+.banner {
+  padding: 13px 15px; border: 1px solid var(--border); border-radius: 12px;
+  background: var(--surface); margin-bottom: 18px; color: var(--muted); font-size: 13px;
+}
+.grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 15px;
+  box-shadow: var(--shadow); padding: 18px;
+}
+.metric-label { color: var(--muted); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.metric-value { font-size: 30px; font-weight: 800; margin: 9px 0 4px; }
+.metric-sub { color: var(--muted); font-size: 12px; }
+.section { margin-top: 18px; }
+.section-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.section-title h2 { margin: 0; font-size: 16px; }
+.status { font-weight: 800; }
+.status.normal { color: var(--good); }
+.status.warning { color: var(--warn); }
+.status.critical { color: var(--critical); }
+.panel-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; }
+.chart { height: 250px; display: flex; align-items: end; gap: 6px; padding: 16px 6px 5px; }
+.bar { flex: 1; min-width: 5px; border-radius: 5px 5px 2px 2px; background: var(--accent); opacity: .8; position: relative; }
+.bar span { position: absolute; top: -17px; left: 50%; transform: translateX(-50%); font-size: 9px; color: var(--muted); }
+.event { display: grid; grid-template-columns: 86px 1fr auto; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+.event:last-child { border-bottom: 0; }
+.event-time { color: var(--muted); }
+.event-type { font-weight: 700; }
+.tag { border-radius: 999px; padding: 4px 7px; font-weight: 700; font-size: 10px; background: var(--surface2); }
+.machine { display: flex; justify-content: space-between; align-items: center; }
+.machine-state { font-size: 24px; font-weight: 800; }
+.note { margin-top: 12px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .panel-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+  main { padding: 18px 14px 28px; }
+  .header { padding: 18px 14px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <h1>Industrial Automation Dashboard</h1>
+      <p>Temperature + Gas Monitoring System</p>
+    </div>
+    <div class="actions">
+      <span class="status-pill"><span class="dot"></span><span id="connection">Simulation Connected</span></span>
+      <button onclick="simulate()">Simulate Reading</button>
+      <button class="primary" onclick="resetDemo()">Reset</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="banner">
+      <b>Prototype mode:</b> values below are simulated for dashboard validation. The next integration step will replace this data source with Firebase Realtime Database.
+    </div>
+
+    <section class="grid">
+      <div class="card">
+        <div class="metric-label">Temperature</div>
+        <div class="metric-value"><span id="temp">28.5</span> °C</div>
+        <div class="metric-sub">Live sensor value</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Gas Level</div>
+        <div class="metric-value"><span id="gas">32</span></div>
+        <div class="metric-sub">Simulated sensor level</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">System Condition</div>
+        <div class="metric-value status normal" id="condition">NORMAL</div>
+        <div class="metric-sub">Threshold evaluation</div>
+      </div>
+      <div class="card">
+        <div class="metric-label">Last Update</div>
+        <div class="metric-value" style="font-size:19px" id="updated">--:--:--</div>
+        <div class="metric-sub">Automatic reading cycle</div>
+      </div>
+    </section>
+
+    <section class="section panel-grid">
+      <div class="card">
+        <div class="section-title">
+          <h2>Temperature Trend</h2>
+          <span class="tag">Recent readings</span>
+        </div>
+        <div class="chart" id="chart"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title"><h2>Machine & Alarm</h2></div>
+        <div class="machine">
+          <div>
+            <div class="metric-label">Machine</div>
+            <div class="machine-state" id="machine">ON</div>
+          </div>
+          <div>
+            <div class="metric-label">Alarm</div>
+            <div class="machine-state" id="alarm">OFF</div>
+          </div>
+        </div>
+        <div class="note">
+          Critical conditions are intended to trigger the approved local safety action. Final thresholds and machine-control policy must be confirmed before hardware deployment.
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <div class="section-title">
+        <h2>Recent Events</h2>
+        <span class="tag">Prototype history</span>
+      </div>
+      <div id="events"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const base = {
+  temp: 28.5, gas: 32,
+  temps: [27.8, 28.1, 28.4, 28.0, 28.7, 29.1, 28.5, 28.9, 28.5],
+  events: [
+    {time:"14:29:12", text:"Sensor reading received", type:"NORMAL"},
+    {time:"14:28:42", text:"Firebase upload simulated", type:"CLOUD"},
+    {time:"14:28:12", text:"Temperature checked", type:"NORMAL"}
+  ]
+};
+let state = structuredClone(base);
+
+function evaluate(t, g) {
+  if (t >= 40 || g >= 80) return "CRITICAL";
+  if (t >= 35 || g >= 60) return "WARNING";
+  return "NORMAL";
+}
+function render() {
+  const c = evaluate(state.temp, state.gas);
+  document.getElementById("temp").textContent = state.temp.toFixed(1);
+  document.getElementById("gas").textContent = Math.round(state.gas);
+  const ce = document.getElementById("condition");
+  ce.textContent = c;
+  ce.className = "metric-value status " + c.toLowerCase();
+  document.getElementById("machine").textContent = c === "CRITICAL" ? "OFF" : "ON";
+  document.getElementById("alarm").textContent = c === "CRITICAL" ? "ON" : "OFF";
+  document.getElementById("updated").textContent = new Date().toLocaleTimeString();
+  const chart = document.getElementById("chart");
+  const max = Math.max(...state.temps, 45);
+  chart.innerHTML = state.temps.map(v =>
+    `<div class="bar" style="height:${Math.max(8, (v/max)*205)}px"><span>${v.toFixed(1)}</span></div>`
+  ).join("");
+  document.getElementById("events").innerHTML = state.events.slice(0,7).map(e =>
+    `<div class="event"><div class="event-time">${e.time}</div><div class="event-type">${e.text}</div><div class="tag">${e.type}</div></div>`
+  ).join("");
+}
+function simulate() {
+  state.temp = +(24 + Math.random()*20).toFixed(1);
+  state.gas = Math.round(15 + Math.random()*75);
+  state.temps.push(state.temp);
+  if (state.temps.length > 12) state.temps.shift();
+  const c = evaluate(state.temp, state.gas);
+  state.events.unshift({
+    time:new Date().toLocaleTimeString(),
+    text:`Reading ${state.temp.toFixed(1)} °C / ${state.gas} gas`,
+    type:c
+  });
+  render();
+}
+function resetDemo() {
+  state = structuredClone(base);
+  render();
+}
+render();
+</script>
+</body>
+</html>
